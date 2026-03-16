@@ -1,0 +1,31 @@
+{% extends "chat/base.html" %}
+{% block content %}
+  <header>
+    <h1>{{ session.name }}</h1>
+  </header>
+
+  <section aria-label="Wiadomości">
+    {% for m in session.messages.all %}
+      <article class="msg {{ m.role }}">
+        <p class="msg-content">{{ m.content }}</p>
+        <footer class="msg-meta">{{ m.role }} — {{ m.created_at }}</footer>
+        {% if message.role == 'assistant' and message.audio.first %}
+          <audio controls src="{{ message.audio.first.audio_file.url }}"></audio>
+        {% endif %}
+      </article>
+    {% empty %}
+      <p>Brak wiadomości w tej sesji.</p>
+    {% endfor %}
+  </section>
+
+  <form method="post">{% csrf_token %}
+    <div>
+      <label for="id_message">Twoja wiadomość</label>
+      <textarea id="id_message" name="message" rows="3" required></textarea>
+      <input type="file" name = "file">
+    </div>
+    <div>
+      <button type="submit">Wyślij</button>
+    </div>
+  </form>
+{% endblock %}

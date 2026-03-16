@@ -1,0 +1,9 @@
+{% extends "chat/base.html" %}
+{% block content %}
+  <h1>Rejestracja</h1>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Zarejestruj się</button>
+  </form>
+  <p>Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a></p>
+{% endblock %}
